@@ -24,20 +24,21 @@ function calculateTrilateration() {
 
     let solutions = [];
 
-    let range = 50
-    for (let x = -range; x <= range; x++) {
-        for (let y = -range; y <= range; y++) {
-            for (let z = -range; z <= range; z++) {
+    const test_range = 50
+    const error_range = parseFloat(document.getElementById('error_range').value)*0.5;
+    for (let x = -test_range; x <= test_range; x++) {
+        for (let y = -test_range; y <= test_range; y++) {
+            for (let z = -test_range; z <= test_range; z++) {
                 const dist1 = (x-x1)**2 + (y-y1)**2 + (z-z1)**2;
                 const dist2 = (x-x2)**2 + (y-y2)**2 + (z-z2)**2;
                 const dist3 = (x-x3)**2 + (y-y3)**2 + (z-z3)**2;
                 const dist4 = (x-x4)**2 + (y-y4)**2 + (z-z4)**2;
 
                 if (
-                    (d1)**2 <= dist1 && dist1 < (d1+1)**2 &&
-                    (d2)**2 <= dist2 && dist2 < (d2+1)**2 &&
-                    (d3)**2 <= dist3 && dist3 < (d3+1)**2 &&
-                    (d4)**2 <= dist4 && dist4 < (d4+1)**2
+                    (d1-error_range)**2 <= dist1 && dist1 < (d1+1+error_range)**2 &&
+                    (d2-error_range)**2 <= dist2 && dist2 < (d2+1+error_range)**2 &&
+                    (d3-error_range)**2 <= dist3 && dist3 < (d3+1+error_range)**2 &&
+                    (d4-error_range)**2 <= dist4 && dist4 < (d4+1+error_range)**2
                 ) {
                     solutions.push({x, y, z});
                 }
@@ -48,7 +49,31 @@ function calculateTrilateration() {
     if (solutions.length > 0) {
         const resultText = solutions.map(sol => `(${baseX+sol.x}, ${baseY+sol.y}, ${baseZ+sol.z})`).join(', ');
         document.getElementById('result').innerText = `Possible solutions: ${resultText}`;
+        // 평균 좌표를 계산합니다.
+        let sumX = 0;
+        let sumY = 0;
+        let sumZ = 0;
+
+        solutions.forEach(sol => {
+            sumX += sol.x;
+            sumY += sol.y;
+            sumZ += sol.z;
+        });
+
+        const avgX = sumX / solutions.length;
+        const avgY = sumY / solutions.length;
+        const avgZ = sumZ / solutions.length;
+
+        const avgResult = `예상 위치: (${(baseX+avgX).toFixed(0)}, ${(baseY+avgY).toFixed(0)}, ${(baseZ+avgZ).toFixed(0)})`;
+        document.getElementById('result').innerText += `\n${avgResult}`;
+
+        // document.getElementById('result').innerText += `\n
+        // ${d1**2}<=(x-${x1})**2+(y-${y1})**2+(z-${z1})**2<${(d1+1)**2}, 
+        // ${d2**2}<=(x-${x2})**2+(y-${y2})**2+(z-${z2})**2<${(d2+1)**2}, 
+        // ${d3**2}<=(x-${x3})**2+(y-${y3})**2+(z-${z3})**2<${(d3+1)**2}, 
+        // ${d4**2}<=(x-${x4})**2+(y-${y4})**2+(z-${z4})**2<${(d4+1)**2}}`;
+
     } else {
-        document.getElementById('result').innerText = 'No solutions found.';
+        document.getElementById('result').innerText = '해를 찾지 못했습니다. 입력이 올바른지 확인하고 허용 오차를 1씩 늘려가며 다시 계산해보세요.';
     }
 }

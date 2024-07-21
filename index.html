@@ -43,6 +43,10 @@
             <input type="number" id="z4" name="z4" placeholder="z4" required>
             <input type="number" id="d4" name="d4" placeholder="화석과의 거리 입력" required>
         </div>
+        <div class="input-group">
+            <label >계산 허용 오차</label>
+            <input type="number" id="error_range" name="error_range" placeholder="0" value="0" required>
+        </div>
         <button type="button" onclick="calculateTrilateration()">Calculate</button>
     </form>
     <div id="result"></div>
