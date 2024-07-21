@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Trilateration Solver</title>
+    <title>멋봉리 화석 좌표 계산기</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>3D Trilateration Solver</h1>
+    <h1>멋봉리 화석 좌표 계산기</h1>
     <form id="trilaterationForm">
         <div class="input-group">
             <label>기준 좌표:</label>
@@ -16,28 +16,28 @@
             <input type="number" id="basePosZ" name="basePosZ" placeholder="z" required>
         </div>
         <div class="input-group">
-            <label for="point1">첫번째 상대좌표:</label>
+            <label >첫번째 상대좌표, 탐지된 거리:</label>
             <input type="number" id="x1" name="x1" placeholder="x1" required>
             <input type="number" id="y1" name="y1" placeholder="y1" required>
             <input type="number" id="z1" name="z1" placeholder="z1" required>
             <input type="number" id="d1" name="d1" placeholder="화석과의 거리 입력" required>
         </div>
         <div class="input-group">
-            <label for="point2">두번째 상대좌표와 거리:</label>
+            <label >두번째 상대좌표, 탐지된 거리:</label>
             <input type="number" id="x2" name="x2" placeholder="x2" required>
             <input type="number" id="y2" name="y2" placeholder="y2" required>
             <input type="number" id="z2" name="z2" placeholder="z2" required>
             <input type="number" id="d2" name="d2" placeholder="화석과의 거리 입력" required>
         </div>
         <div class="input-group">
-            <label for="point3">세번째 상대좌표와 거리:</label>
+            <label >세번째 상대좌표, 탐지된 거리:</label>
             <input type="number" id="x3" name="x3" placeholder="x3" required>
             <input type="number" id="y3" name="y3" placeholder="y3" required>
             <input type="number" id="z3" name="z3" placeholder="z3" required>
             <input type="number" id="d3" name="d3" placeholder="화석과의 거리 입력" required>
         </div>
         <div class="input-group">
-            <label for="point4">네번째 상대좌표와 거리:</label>
+            <label >네번째 상대좌표, 탐지된 거리:</label>
             <input type="number" id="x4" name="x4" placeholder="x4" required>
             <input type="number" id="y4" name="y4" placeholder="y4" required>
             <input type="number" id="z4" name="z4" placeholder="z4" required>
@@ -46,6 +46,19 @@
         <button type="button" onclick="calculateTrilateration()">Calculate</button>
     </form>
     <div id="result"></div>
+    <div>
+        <h4>네번의 탐지값으로 거의 정확한 화석 좌표를 얻습니다.</h4>
+        <h3>간단한 사용 예시</h3>
+        <p>
+            화석과의 거리가 40이하가 될때까지 이동하세요<br>
+            탐지기를 작동시키고 작동위치를 기준 좌표에 입력하세요 (소수점은 모두 버리세요)<br>
+            첫번째 상대좌표의 x,y,z에 모두 0을 입력하고 탐지된 거리값을 입력합니다.<br>
+            x축으로 5칸 이동하고 다시 탐지기를 작동시키세요. 두번째 상대좌표에 5, 0, 0과 거리값을 입력하세요<br>
+            다시 기준좌표로 돌아간다음 이번엔 z축으로 5칸 이동하고 다시 탐지기를 작동시킵니다. 세번째 상대좌표에 0,0,5, 탐지된 거리값을 입력합니다.<br>
+            다시 기준좌표로 돌아간다음 이번엔 y축으로 5칸 이동하고 다시 탐지기를 작동시킵니다. 네번째 상대좌표에 0,5,0, 탐지된 거리값을 입력합니다.<br>
+            계산 버튼을 눌러 좌표를 확인하세요.<br>
+        </p>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
