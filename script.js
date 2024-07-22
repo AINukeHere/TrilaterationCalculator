@@ -48,7 +48,7 @@ function calculateTrilateration() {
 
     if (solutions.length > 0) {
         const resultText = solutions.map(sol => `(${baseX+sol.x}, ${baseY+sol.y}, ${baseZ+sol.z})`).join(', ');
-        document.getElementById('result').innerText = `Possible solutions: ${resultText}`;
+        document.getElementById('result').innerText = `가능한 좌표: ${resultText}`;
         // 평균 좌표를 계산합니다.
         let sumX = 0;
         let sumY = 0;
@@ -64,7 +64,7 @@ function calculateTrilateration() {
         const avgY = sumY / solutions.length;
         const avgZ = sumZ / solutions.length;
 
-        const avgResult = `예상 위치: (${(baseX+avgX).toFixed(0)}, ${(baseY+avgY).toFixed(0)}, ${(baseZ+avgZ).toFixed(0)})`;
+        const avgResult = `평균: (${(baseX+avgX).toFixed(0)}, ${(baseY+avgY).toFixed(0)}, ${(baseZ+avgZ).toFixed(0)})`;
         document.getElementById('result').innerText += `\n${avgResult}`;
 
         // document.getElementById('result').innerText += `\n
