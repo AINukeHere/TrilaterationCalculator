@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>멋봉리 화석 좌표 계산기</title>
+    <title>멋봉리 석유/화석 좌표 계산기</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>멋봉리 화석 좌표 계산기</h1>
-    <h4>네번의 탐지값으로 거의 정확한 화석 좌표를 얻어보자.</h4>
+    <h1>멋봉리 석유/화석 좌표 계산기</h1>
+    <h4>네번의 탐지값으로 거의 정확한 좌표를 얻어보자.</h4>
     <form id="trilaterationForm">
         <div class="input-group">
             <label>기준 좌표:</label>
@@ -21,28 +21,28 @@
             <input type="number" id="x1" name="x1" placeholder="x1" value="0" required>
             <input type="number" id="y1" name="y1" placeholder="y1" value="0" required>
             <input type="number" id="z1" name="z1" placeholder="z1" value="0" required>
-            <input type="number" id="d1" name="d1" placeholder="화석과의 거리 입력" required>
+            <input type="number" id="d1" name="d1" placeholder="탐지된 거리 입력" required>
         </div>
         <div class="input-group">
             <label >두번째 상대좌표, 탐지된 거리:</label>
             <input type="number" id="x2" name="x2" placeholder="x2" value="5"  required>
             <input type="number" id="y2" name="y2" placeholder="y2" value="0"  required>
             <input type="number" id="z2" name="z2" placeholder="z2" value="0"  required>
-            <input type="number" id="d2" name="d2" placeholder="화석과의 거리 입력" required>
+            <input type="number" id="d2" name="d2" placeholder="탐지된 거리 입력" required>
         </div>
         <div class="input-group">
             <label >세번째 상대좌표, 탐지된 거리:</label>
             <input type="number" id="x3" name="x3" placeholder="x3" value="0"  required>
             <input type="number" id="y3" name="y3" placeholder="y3" value="0"  required>
             <input type="number" id="z3" name="z3" placeholder="z3" value="5"  required>
-            <input type="number" id="d3" name="d3" placeholder="화석과의 거리 입력" required>
+            <input type="number" id="d3" name="d3" placeholder="탐지된 거리 입력" required>
         </div>
         <div class="input-group">
             <label >네번째 상대좌표, 탐지된 거리:</label>
             <input type="number" id="x4" name="x4" placeholder="x4" value="0"  required>
             <input type="number" id="y4" name="y4" placeholder="y4" value="5"  required>
             <input type="number" id="z4" name="z4" placeholder="z4" value="0"  required>
-            <input type="number" id="d4" name="d4" placeholder="화석과의 거리 입력" required>
+            <input type="number" id="d4" name="d4" placeholder="탐지된 거리 입력" required>
         </div>
         <div class="input-group">
             <label >계산 허용 오차</label>
