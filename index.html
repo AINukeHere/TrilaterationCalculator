@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>멋봉리 화석 좌표 계산기</h1>
+    <h4>네번의 탐지값으로 거의 정확한 화석 좌표를 얻어보자.</h4>
     <form id="trilaterationForm">
         <div class="input-group">
             <label>기준 좌표:</label>
@@ -47,11 +48,10 @@
             <label >계산 허용 오차</label>
             <input type="number" id="error_range" name="error_range" placeholder="0" value="0" required>
         </div>
-        <button type="button" onclick="calculateTrilateration()">Calculate</button>
+        <button type="button" onclick="calculateTrilateration()">계산하기</button>
     </form>
     <div id="result"></div>
     <div>
-        <h4>네번의 탐지값으로 거의 정확한 화석 좌표를 얻습니다.</h4>
         <h3>간단한 사용 예시</h3>
         <p>
             화석과의 거리가 40이하가 될때까지 이동하세요<br>
@@ -60,7 +60,12 @@
             x축으로 5칸 이동하고 다시 탐지기를 작동시키세요. 두번째 상대좌표에 5, 0, 0과 거리값을 입력하세요<br>
             다시 기준좌표로 돌아간다음 이번엔 z축으로 5칸 이동하고 다시 탐지기를 작동시킵니다. 세번째 상대좌표에 0,0,5, 탐지된 거리값을 입력합니다.<br>
             다시 기준좌표로 돌아간다음 이번엔 y축으로 5칸 이동하고 다시 탐지기를 작동시킵니다. 네번째 상대좌표에 0,5,0, 탐지된 거리값을 입력합니다.<br>
-            계산 버튼을 눌러 좌표를 확인하세요.<br>
+            계산 버튼을 눌러 좌표를 확인하세요. 계산에 실패하면 계산 허용 오차를 1씩 올려보면서 계산버튼을 누르세요.<br>
+        </p>
+        <hr>
+        <p>
+            다시 기준좌표로 돌아가는것이 귀찮다면 x축으로 5칸 이동하고 좌표와 거리를 입력한 후 z축으로 5칸 이동하고 좌표에 5,0,5, 거리값을 입력하면 됩니다.<br>
+            거기서 y축으로 5만큼 더 이동해서 탐지했다면 5,5,5, 거리값을 입력하면 됩니다.
         </p>
     </div>
     <script src="script.js"></script>
