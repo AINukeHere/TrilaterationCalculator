@@ -1,3 +1,27 @@
+function insertExampleValues(){
+    document.getElementById('basePosX').value = 100
+    document.getElementById('basePosY').value = 200
+    document.getElementById('basePosZ').value = 300
+    document.getElementById('x1').value = 0
+    document.getElementById('y1').value = 0
+    document.getElementById('z1').value = 0
+    document.getElementById('d1').value = 14
+
+    document.getElementById('x2').value = 5
+    document.getElementById('y2').value = 0
+    document.getElementById('z2').value = 0
+    document.getElementById('d2').value = 10
+
+    document.getElementById('x3').value = 5
+    document.getElementById('y3').value = 0
+    document.getElementById('z3').value = 5
+    document.getElementById('d3').value = 11
+
+    document.getElementById('x4').value = 5
+    document.getElementById('y4').value = 5
+    document.getElementById('z4').value = 5
+    document.getElementById('d4').value = 9
+}
 function calculateTrilateration() {
     const baseX = parseFloat(document.getElementById('basePosX').value);
     const baseY = parseFloat(document.getElementById('basePosY').value);
