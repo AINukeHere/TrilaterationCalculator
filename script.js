@@ -49,7 +49,7 @@ function calculateTrilateration() {
     let solutions = [];
 
     const test_range = 50
-    const error_range = parseFloat(document.getElementById('error_range').value)*0.5;
+    const error_range = parseFloat(document.getElementById('error_range').value)*0.25;
     for (let x = -test_range; x <= test_range; x++) {
         for (let y = -test_range; y <= test_range; y++) {
             for (let z = -test_range; z <= test_range; z++) {
