@@ -30,21 +30,27 @@ function calculateTrilateration() {
     const y1 = parseFloat(document.getElementById('y1').value);
     const z1 = parseFloat(document.getElementById('z1').value);
     const d1 = parseFloat(document.getElementById('d1').value);
-
+    
     const x2 = parseFloat(document.getElementById('x2').value);
     const y2 = parseFloat(document.getElementById('y2').value);
     const z2 = parseFloat(document.getElementById('z2').value);
     const d2 = parseFloat(document.getElementById('d2').value);
-
+    
     const x3 = parseFloat(document.getElementById('x3').value);
     const y3 = parseFloat(document.getElementById('y3').value);
     const z3 = parseFloat(document.getElementById('z3').value);
     const d3 = parseFloat(document.getElementById('d3').value);
-
+    
     const x4 = parseFloat(document.getElementById('x4').value);
     const y4 = parseFloat(document.getElementById('y4').value);
     const z4 = parseFloat(document.getElementById('z4').value);
     const d4 = parseFloat(document.getElementById('d4').value);
+    
+    requestRemoveSpheres();
+    requestCreateTransSphere(baseX+x1,baseY+y1,baseZ+z1,d1,1,0.5);
+    requestCreateTransSphere(baseX+x2,baseY+y2,baseZ+z2,d2,2,0.5);
+    requestCreateTransSphere(baseX+x3,baseY+y3,baseZ+z3,d3,3,0.5);
+    requestCreateTransSphere(baseX+x4,baseY+y4,baseZ+z4,d4,4,0.5);
 
     let solutions = [];
 
@@ -69,9 +75,10 @@ function calculateTrilateration() {
             }
         }
     }
-
+    requestRemoveCubes();
     if (solutions.length > 0) {
         const resultText = solutions.map(sol => `(${baseX+sol.x}, ${baseY+sol.y}, ${baseZ+sol.z})`).join(', ');
+        
         document.getElementById('result').innerText = `가능한 좌표: ${resultText}`;
         // 평균 좌표를 계산합니다.
         let sumX = 0;
@@ -82,6 +89,8 @@ function calculateTrilateration() {
             sumX += sol.x;
             sumY += sol.y;
             sumZ += sol.z;
+            requestCreateCube(baseX+sol.x, baseY+sol.y, baseZ+sol.z)
+            console.log(baseX+sol.x, baseY+sol.y, baseZ+sol.z)
         });
 
         const avgX = sumX / solutions.length;
@@ -90,14 +99,52 @@ function calculateTrilateration() {
 
         const avgResult = `평균: (${(baseX+avgX).toFixed(0)}, ${(baseY+avgY).toFixed(0)}, ${(baseZ+avgZ).toFixed(0)})`;
         document.getElementById('result').innerText += `\n${avgResult}`;
-
-        // document.getElementById('result').innerText += `\n
-        // ${d1**2}<=(x-${x1})**2+(y-${y1})**2+(z-${z1})**2<${(d1+1)**2}, 
-        // ${d2**2}<=(x-${x2})**2+(y-${y2})**2+(z-${z2})**2<${(d2+1)**2}, 
-        // ${d3**2}<=(x-${x3})**2+(y-${y3})**2+(z-${z3})**2<${(d3+1)**2}, 
-        // ${d4**2}<=(x-${x4})**2+(y-${y4})**2+(z-${z4})**2<${(d4+1)**2}}`;
+        requestViewTo(baseX+avgX,baseY+avgY,baseZ+avgZ);
+        console.log(baseX+avgX, baseY+avgY, baseZ+avgZ)
 
     } else {
         document.getElementById('result').innerText = '해를 찾지 못했습니다. 입력이 올바른지 확인하고 허용 오차를 1씩 늘려가며 다시 계산해보세요.';
+    }
+    function requestCreateTransSphere(x, y, z, r, cID, opacity) {
+        const iframe = document.getElementById('threejs-frame');
+        iframe.contentWindow.postMessage({
+            type: 'createTransSphere',
+            x: x,
+            y: y,
+            z: z,
+            r: r,
+            cID: cID,
+            opacity: opacity
+        }, '*');
+    }
+    function requestCreateCube(x, y, z) {
+        const iframe = document.getElementById('threejs-frame');
+        iframe.contentWindow.postMessage({
+            type: 'createCube',
+            x: x,
+            y: y,
+            z: z
+        }, '*');
+    }
+    function requestRemoveSpheres() {
+        const iframe = document.getElementById('threejs-frame');
+        iframe.contentWindow.postMessage({
+            type: 'removeSpheres'
+        }, '*');
+    }
+    function requestRemoveCubes() {
+        const iframe = document.getElementById('threejs-frame');
+        iframe.contentWindow.postMessage({
+            type: 'removeCubes'
+        }, '*');
+    }
+    function requestViewTo(x,y,z) {
+        const iframe = document.getElementById('threejs-frame');
+        iframe.contentWindow.postMessage({
+            type: 'viewTo',
+            x:x,
+            y:y,
+            z:z
+        }, '*');
     }
 }

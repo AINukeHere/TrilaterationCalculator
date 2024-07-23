@@ -48,3 +48,13 @@ button:hover {
     margin-top: 20px;
     font-size: 1.2em;
 }
+
+#mainGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    padding: 50px;
+}
+#left{
+    grid-column: 1/3;
+}

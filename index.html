@@ -9,85 +9,92 @@
 <body>
     <h1>멋봉리 석유/화석 좌표 계산기</h1>
     <h4>네 번의 탐지로 거의 정확한 좌표를 얻어보자.</h4>
-    <form id="trilaterationForm">
-        <div class="input-group">
-            <label>기준 좌표:</label>
-            <input type="number" id="basePosX" name="basePosX" placeholder="x" required>
-            <input type="number" id="basePosY" name="basePosY" placeholder="y" required>
-            <input type="number" id="basePosZ" name="basePosZ" placeholder="z" required>
+    <div id="mainGrid">
+        <div id="left">
+        <form id="trilaterationForm">
+            <div class="input-group">
+                <label>기준 좌표:</label>
+                <input type="number" id="basePosX" name="basePosX" placeholder="x" required>
+                <input type="number" id="basePosY" name="basePosY" placeholder="y" required>
+                <input type="number" id="basePosZ" name="basePosZ" placeholder="z" required>
+            </div>
+            <div class="input-group">
+                <label >첫번째 상대좌표, 탐지된 거리:</label>
+                <input type="number" id="x1" name="x1" placeholder="x1" value="0" required>
+                <input type="number" id="y1" name="y1" placeholder="y1" value="0" required>
+                <input type="number" id="z1" name="z1" placeholder="z1" value="0" required>
+                <input type="number" id="d1" name="d1" placeholder="탐지된 거리 입력" required>
+            </div>
+            <div class="input-group">
+                <label >두번째 상대좌표, 탐지된 거리:</label>
+                <input type="number" id="x2" name="x2" placeholder="x2" value="5"  required>
+                <input type="number" id="y2" name="y2" placeholder="y2" value="0"  required>
+                <input type="number" id="z2" name="z2" placeholder="z2" value="0"  required>
+                <input type="number" id="d2" name="d2" placeholder="탐지된 거리 입력" required>
+            </div>
+            <div class="input-group">
+                <label >세번째 상대좌표, 탐지된 거리:</label>
+                <input type="number" id="x3" name="x3" placeholder="x3" value="5"  required>
+                <input type="number" id="y3" name="y3" placeholder="y3" value="0"  required>
+                <input type="number" id="z3" name="z3" placeholder="z3" value="5"  required>
+                <input type="number" id="d3" name="d3" placeholder="탐지된 거리 입력" required>
+            </div>
+            <div class="input-group">
+                <label >네번째 상대좌표, 탐지된 거리:</label>
+                <input type="number" id="x4" name="x4" placeholder="x4" value="5"  required>
+                <input type="number" id="y4" name="y4" placeholder="y4" value="5"  required>
+                <input type="number" id="z4" name="z4" placeholder="z4" value="5"  required>
+                <input type="number" id="d4" name="d4" placeholder="탐지된 거리 입력" required>
+            </div>
+            <div class="input-group">
+                <label >계산 허용 오차</label>
+                <input type="number" id="error_range" name="error_range" placeholder="0" value="0" required>
+            </div>
+            <button type="button" onclick="calculateTrilateration()">계산하기</button>
+        </form>
+        <div id="result"></div>
+        <div>
+            <h3>간단한 사용 예시</h3>
+            <p>
+                <span style="font-weight: bold;">Step 1  </span>석유/화석과의 거리가 50이하가 될때까지 이동하세요<br>
+                <span style="font-weight: bold;">Step 2  </span>탐지기를 작동시키고 작동위치를 <span style="font-weight: bold; color: red;">기준 좌표</span>에 입력하세요 (소수점은 모두 버리세요)<br>
+                <span style="font-weight: bold;">Step 3  </span>첫번째 상대좌표의 x,y,z에 모두 0을 입력하고 탐지된 거리값을 입력합니다.<br>
+                <span style="font-weight: bold;">Step 4  </span>x축으로 5칸 이동하고 다시 탐지기를 작동시키세요. 두번째 상대좌표에 5, 0, 0과 탐지된 거리값을 입력하세요<br>
+                <span style="font-weight: bold;">Step 5  </span>이번엔 z축으로 5칸 이동하고 다시 탐지기를 작동시킵니다. 세번째 상대좌표에 5,0,5, 탐지된 거리값을 입력합니다.<br>
+                <span style="font-weight: bold;">Step 6  </span>이번엔 y축으로 5칸 이동하고 다시 탐지기를 작동시킵니다. 네번째 상대좌표에 5,5,5, 탐지된 거리값을 입력합니다.<br>
+                <span style="font-weight: bold;">Step 7  </span>계산하기 버튼을 눌러 좌표를 확인하세요. 계산에 실패하면 계산 허용 오차를 1씩 올려보면서 계산버튼을 누르세요. 4를 넘어서면 이상한 결과가 나오게 될지도 모릅니다.<br>
+            </p>
+            <br>
+            <hr>
+            <h3>실제 예시</h3>
+            <p>
+                내가 서있는 위치가 100, 200, 300이고 여기서 탐지값이 14로 나옴. => 기준좌표에 100, 200, 300 을 입력하고 첫번째 좌표와 거리에 0,0,0,14 입력<br>
+                이제 x축으로 5만큼 움직여서 x좌표를 105로 만들고 탐지하니 10이 나옴. => 두번째 좌표와 거리에 5,0,0,10 입력<br>
+                거기서 z축으로 5만큼 움직여서 z좌표를 305로 만들고 탐지해보니 11가 나옴. => 세번째 좌표와 거리에 5,0,5,15 입력<br>
+                거기서 y축으로 5만큼 움직여서 y좌표를 205로 만들고 탐지해보니 9가 나옴. => 네번째 좌표와 거리에 5,5,5,12 입력<br>
+                계산버튼을 누르면 (112, 208, 300), (113, 206, 300), (113, 207, 300), (113, 207, 301), (114, 205, 301) 이 가능성이 있는 좌표로 나옴.<br>
+                가능성이 여러개로 나오는 이유는 탐지기가 소수점 거리를 주지는 않기 때문인데 웬만하면 그 아랫줄에 나오는 평균좌표를 따라가면 됨. 이 예시에서는 (113, 207, 300)가 계산되어나옴.<br>
+            </p>
+            <button type="button" onclick="insertExampleValues()">이 예시의 입력값 넣어보기</button>
+            <br>
+            <br>
+            <hr>
+            <h3>주의사항</h3>
+            <p>
+                탐지기는 가장 가까운 목표와의 거리를 알려주기때문에 위의 과정에서 오히려 멀어져서 다른 목표와의 거리를 받아버리면 계산결과가 아예 틀릴수 있음.<br>
+                이를 예방하는 방법이 몇가지가 있는데<br>
+                <span style="font-weight: bold;">1. 이동하고 탐지하는 과정에서 너무 멀어진다싶으면 반대방향으로 이동하자.</span><br>
+                &nbsp;&nbsp;예를 들어 기준점에서 x축으로 5칸을 갔는데 거리가 심하게 멀어졌다면 탐지결과를 버리고 기준점으로 돌아가 x축으로 -5칸을 가도록 하는것이다.<br>
+                <span style="font-weight: bold;">2. 애초에 거리가 15이하가 될 때까지 거리를 좁히고 5씩 움직이면서 탐지하자.</span><br>
+                &nbsp;&nbsp;거리가 멀든 가깝든 탐지위치간격은 최소4이상은 되어야 올바른 좌표를 계산할 수 있다. <br>
+                &nbsp;&nbsp;움직이면서 다른 목표를 탐지할만한 확률을 획기적으로 줄인다면 당신은 공룡을 탈 수 있을것이다.<br>
+            </p>
         </div>
-        <div class="input-group">
-            <label >첫번째 상대좌표, 탐지된 거리:</label>
-            <input type="number" id="x1" name="x1" placeholder="x1" value="0" required>
-            <input type="number" id="y1" name="y1" placeholder="y1" value="0" required>
-            <input type="number" id="z1" name="z1" placeholder="z1" value="0" required>
-            <input type="number" id="d1" name="d1" placeholder="탐지된 거리 입력" required>
+        <script src="script.js"></script>
         </div>
-        <div class="input-group">
-            <label >두번째 상대좌표, 탐지된 거리:</label>
-            <input type="number" id="x2" name="x2" placeholder="x2" value="5"  required>
-            <input type="number" id="y2" name="y2" placeholder="y2" value="0"  required>
-            <input type="number" id="z2" name="z2" placeholder="z2" value="0"  required>
-            <input type="number" id="d2" name="d2" placeholder="탐지된 거리 입력" required>
+        <div id="right">
+            <iframe id="threejs-frame" src="visualize.html" width="640" height="480"></iframe>
         </div>
-        <div class="input-group">
-            <label >세번째 상대좌표, 탐지된 거리:</label>
-            <input type="number" id="x3" name="x3" placeholder="x3" value="5"  required>
-            <input type="number" id="y3" name="y3" placeholder="y3" value="0"  required>
-            <input type="number" id="z3" name="z3" placeholder="z3" value="5"  required>
-            <input type="number" id="d3" name="d3" placeholder="탐지된 거리 입력" required>
-        </div>
-        <div class="input-group">
-            <label >네번째 상대좌표, 탐지된 거리:</label>
-            <input type="number" id="x4" name="x4" placeholder="x4" value="5"  required>
-            <input type="number" id="y4" name="y4" placeholder="y4" value="5"  required>
-            <input type="number" id="z4" name="z4" placeholder="z4" value="5"  required>
-            <input type="number" id="d4" name="d4" placeholder="탐지된 거리 입력" required>
-        </div>
-        <div class="input-group">
-            <label >계산 허용 오차</label>
-            <input type="number" id="error_range" name="error_range" placeholder="0" value="0" required>
-        </div>
-        <button type="button" onclick="calculateTrilateration()">계산하기</button>
-    </form>
-    <div id="result"></div>
-    <div>
-        <h3>간단한 사용 예시</h3>
-        <p>
-            <span style="font-weight: bold;">Step 1  </span>석유/화석과의 거리가 50이하가 될때까지 이동하세요<br>
-            <span style="font-weight: bold;">Step 2  </span>탐지기를 작동시키고 작동위치를 <span style="font-weight: bold; color: red;">기준 좌표</span>에 입력하세요 (소수점은 모두 버리세요)<br>
-            <span style="font-weight: bold;">Step 3  </span>첫번째 상대좌표의 x,y,z에 모두 0을 입력하고 탐지된 거리값을 입력합니다.<br>
-            <span style="font-weight: bold;">Step 4  </span>x축으로 5칸 이동하고 다시 탐지기를 작동시키세요. 두번째 상대좌표에 5, 0, 0과 탐지된 거리값을 입력하세요<br>
-            <span style="font-weight: bold;">Step 5  </span>이번엔 z축으로 5칸 이동하고 다시 탐지기를 작동시킵니다. 세번째 상대좌표에 5,0,5, 탐지된 거리값을 입력합니다.<br>
-            <span style="font-weight: bold;">Step 6  </span>이번엔 y축으로 5칸 이동하고 다시 탐지기를 작동시킵니다. 네번째 상대좌표에 5,5,5, 탐지된 거리값을 입력합니다.<br>
-            <span style="font-weight: bold;">Step 7  </span>계산하기 버튼을 눌러 좌표를 확인하세요. 계산에 실패하면 계산 허용 오차를 1씩 올려보면서 계산버튼을 누르세요. 4를 넘어서면 이상한 결과가 나오게 될지도 모릅니다.<br>
-        </p>
-        <br>
-        <hr>
-        <h3>실제 예시</h3>
-        <p>
-            내가 서있는 위치가 100, 200, 300이고 여기서 탐지값이 14로 나옴. => 기준좌표에 100, 200, 300 을 입력하고 첫번째 좌표와 거리에 0,0,0,14 입력<br>
-            이제 x축으로 5만큼 움직여서 x좌표를 105로 만들고 탐지하니 10이 나옴. => 두번째 좌표와 거리에 5,0,0,10 입력<br>
-            거기서 z축으로 5만큼 움직여서 z좌표를 305로 만들고 탐지해보니 11가 나옴. => 세번째 좌표와 거리에 5,0,5,15 입력<br>
-            거기서 y축으로 5만큼 움직여서 y좌표를 205로 만들고 탐지해보니 9가 나옴. => 네번째 좌표와 거리에 5,5,5,12 입력<br>
-            계산버튼을 누르면 (112, 208, 300), (113, 206, 300), (113, 207, 300), (113, 207, 301), (114, 205, 301) 이 가능성이 있는 좌표로 나옴.<br>
-            가능성이 여러개로 나오는 이유는 탐지기가 소수점 거리를 주지는 않기 때문인데 웬만하면 그 아랫줄에 나오는 평균좌표를 따라가면 됨. 이 예시에서는 (113, 207, 300)가 계산되어나옴.<br>
-        </p>
-        <button type="button" onclick="insertExampleValues()">이 예시의 입력값 넣어보기</button>
-        <br>
-        <br>
-        <hr>
-        <h3>주의사항</h3>
-        <p>
-            탐지기는 가장 가까운 목표와의 거리를 알려주기때문에 위의 과정에서 오히려 멀어져서 다른 목표와의 거리를 받아버리면 계산결과가 아예 틀릴수 있음.<br>
-            이를 예방하는 방법이 몇가지가 있는데<br>
-            <span style="font-weight: bold;">1. 이동하고 탐지하는 과정에서 너무 멀어진다싶으면 반대방향으로 이동하자.</span><br>
-            &nbsp;&nbsp;예를 들어 기준점에서 x축으로 5칸을 갔는데 거리가 심하게 멀어졌다면 탐지결과를 버리고 기준점으로 돌아가 x축으로 -5칸을 가도록 하는것이다.<br>
-            <span style="font-weight: bold;">2. 애초에 거리가 15이하가 될 때까지 거리를 좁히고 5씩 움직이면서 탐지하자.</span><br>
-            &nbsp;&nbsp;거리가 멀든 가깝든 탐지위치간격은 최소4이상은 되어야 올바른 좌표를 계산할 수 있다. <br>
-            &nbsp;&nbsp;움직이면서 다른 목표를 탐지할만한 확률을 획기적으로 줄인다면 당신은 공룡을 탈 수 있을것이다.<br>
-        </p>
     </div>
-    <script src="script.js"></script>
 </body>
 </html>

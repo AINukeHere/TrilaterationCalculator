@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Three.js 3D Cubes</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        const gridHelper = new THREE.GridHelper(1000, 1000);
+        scene.add(gridHelper);
+
+        // // 간격이 16인 세로 높이 그리드 생성 함수
+        // function createVerticalHeightGrid(size, step) {
+        //     const material = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+        //     const points = [];
+            
+        //     for (let x = -size / 2; x <= size / 2; x += step) {
+        //         for (let z = -size / 2; z <= size / 2; z += step) {
+        //             points.push(new THREE.Vector3(x, -size / 2, z));
+        //             points.push(new THREE.Vector3(x, size / 2, z));
+        //         }
+        //     }
+
+        //     const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        //     const lineSegments = new THREE.LineSegments(geometry, material);
+        //     scene.add(lineSegments);
+        // }
+
+        // // 세로 높이 그리드 추가
+        // createVerticalHeightGrid(100, 16); // size는 그리드의 크기, step은 간격
+
+        const cubes = [];
+        const transparentSpheres = [];
+        function createCube(x, y, z) {
+            const geometry = new THREE.BoxGeometry(1, 1, 1);
+            const color = new THREE.Color(Math.random(),Math.random(),Math.random());
+            const material = new THREE.MeshBasicMaterial({ color: color });
+            const cube = new THREE.Mesh(geometry, material);
+            cube.position.set(x, y, z);
+            scene.add(cube);
+            cubes.push(cube);
+        }
+        function createTransparentSphere(x, y, z, radius, color, opacity) {
+            const geometry = new THREE.SphereGeometry(radius, 32, 32);
+            const material = new THREE.MeshBasicMaterial({
+                color: color,
+                transparent: true,
+                opacity: opacity,
+            });
+            const sphere = new THREE.Mesh(geometry, material);
+            sphere.position.set(x, y, z);
+            scene.add(sphere);
+            transparentSpheres.push(sphere);
+            return sphere;
+        }
+
+
+        function removeAllCubes() {
+            cubes.forEach(cube => {
+                scene.remove(cube);
+                cube.geometry.dispose();
+                cube.material.dispose();
+            });
+            cubes.length = 0;
+        }
+        function viewTo(x,y,z){
+            camera.position.set(x,y+5,z+10);
+            controls.target.set(x,y,z);
+            gridHelper.position.y = y-5;
+        }
+
+        // createCube(1, 0, 0);
+        // createCube(1, 0, 2);
+        // createCube(1, 1, 1);
+        // // 예시: 반투명한 구 생성
+        // createTransparentSphere(0, 0, 0, 1, 0xff0000, 0.5);  // 빨간색, 50% 불투명
+        // createTransparentSphere(2, 2, 2, 1.5, 0x00ff00, 0.3); // 녹색, 30% 불투명
+        // createTransparentSphere(-2, -2, -2, 1.2, 0x0000ff, 0.7); // 파란색, 70% 불투명
+
+        camera.position.y = 5;
+        camera.position.z = 10;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+
+            // 반투명 구를 정렬하여 나중에 렌더링되도록 함
+            // transparentSpheres.forEach(sphere => {
+            //     scene.remove(sphere);
+            // });
+            // transparentSpheres.forEach(sphere => {
+            //     scene.add(sphere);
+            // });
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'moveCube') {
+                const { index, x, y, z } = event.data;
+                if (cubes[index]) {
+                    cubes[index].position.set(x, y, z);
+                }
+            }
+            else if (event.data && event.data.type === 'removeCubes') {
+                removeAllCubes();
+            }
+            else if (event.data && event.data.type === 'createCube') {
+                const { x, y, z } = event.data;
+                createCube(x,y,z);
+            }
+            else if (event.data && event.data.type === 'viewTo') {
+                const { x, y, z } = event.data;
+                viewTo(x,y,z);
+            }
+            else if (event.data && event.data.type === 'createTransSphere') {
+                const { x, y, z, r, cID, opacity} = event.data;
+                let color;
+                switch (cID) {
+                    case 1:
+                        color = new THREE.Color(1,0,0);
+                        break;
+                    case 2:
+                        color = new THREE.Color(0,1,0);
+                        break;
+                    case 3:
+                        color = new THREE.Color(0,0,1);
+                        break;
+                    case 4:
+                        color = new THREE.Color(1,0,1);
+                        break;
+                    default:
+                        break;
+                }
+                createTransparentSphere(x,y,z,r,color,opacity);
+            }
+            else if (event.data && event.data.type === 'removeSpheres') {
+                transparentSpheres.forEach(sphere => {
+                    scene.remove(sphere);
+                    sphere.geometry.dispose();
+                    sphere.material.dispose();
+                });
+                transparentSpheres.length = 0;
+            }
+        });
+    </script>
+</body>
+</html>
