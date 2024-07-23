@@ -49,7 +49,7 @@ function calculateTrilateration() {
     let solutions = [];
 
     const test_range = 50
-    const error_range = parseFloat(document.getElementById('error_range').value)*0.25;
+    const error_range = parseFloat(document.getElementById('error_range').value)*0.125;
     for (let x = -test_range; x <= test_range; x++) {
         for (let y = -test_range; y <= test_range; y++) {
             for (let z = -test_range; z <= test_range; z++) {
@@ -59,10 +59,10 @@ function calculateTrilateration() {
                 const dist4 = (x-x4)**2 + (y-y4)**2 + (z-z4)**2;
 
                 if (
-                    (d1-error_range)**2 <= dist1 && dist1 < (d1+1+error_range)**2 &&
-                    (d2-error_range)**2 <= dist2 && dist2 < (d2+1+error_range)**2 &&
-                    (d3-error_range)**2 <= dist3 && dist3 < (d3+1+error_range)**2 &&
-                    (d4-error_range)**2 <= dist4 && dist4 < (d4+1+error_range)**2
+                    (d1-0.25-error_range)**2 <= dist1 && dist1 < (d1+0.25+error_range)**2 &&
+                    (d2-0.25-error_range)**2 <= dist2 && dist2 < (d2+0.25+error_range)**2 &&
+                    (d3-0.25-error_range)**2 <= dist3 && dist3 < (d3+0.25+error_range)**2 &&
+                    (d4-0.25-error_range)**2 <= dist4 && dist4 < (d4+0.25+error_range)**2
                 ) {
                     solutions.push({x, y, z});
                 }
