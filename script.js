@@ -70,6 +70,7 @@ function calculateTrilateration() {
                     (d3-0.25-error_range)**2 <= dist3 && dist3 < (d3+0.25+error_range)**2 &&
                     (d4-0.25-error_range)**2 <= dist4 && dist4 < (d4+0.25+error_range)**2
                 ) {
+                    console.log(dist1, dist2, dist3, dist4)
                     solutions.push({x, y, z});
                 }
             }

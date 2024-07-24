@@ -4,14 +4,29 @@
     <meta charset="UTF-8">
     <title>Three.js 3D Cubes</title>
     <style>
-        body { margin: 0; }
+        body { margin: 0; overflow: hidden; }
         canvas { display: block; }
+        #overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <div id="overlay">
+        <span>현재 카메라 위치: <span id="camPos"></span></span>
+    </div>
     <script>
+        const posSpan = document.getElementById('camPos')
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer();
@@ -104,7 +119,7 @@
             // transparentSpheres.forEach(sphere => {
             //     scene.add(sphere);
             // });
-
+            posSpan.innerText = `${Math.floor(camera.position.x)} ${Math.floor(camera.position.y)} ${Math.floor(camera.position.z)}`
             renderer.render(scene, camera);
         }
         animate();
