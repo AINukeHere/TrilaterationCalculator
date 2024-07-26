@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>멋봉리 석유/화석 좌표 계산기</title>
+    <title>멋봉리 화석 좌표 계산기</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>멋봉리 석유/화석 좌표 계산기</h1>
+    <h1>멋봉리 화석 좌표 계산기</h1>
     <h4>네 번의 탐지로 거의 정확한 좌표를 얻어보자.</h4>
     <div id="mainGrid">
         <div id="left">
@@ -57,7 +57,7 @@
             <h3>사용 예시</h3>
             <p>
                 <span style="font-weight: bold;">Step 1  </span>
-                석유/화석과의 거리가 20이하가 될때까지 이동하세요<br>
+                화석과의 거리가 20이하가 될때까지 이동하세요<br>
                 <span style="font-weight: bold;">Step 2  </span>
                 탐지기를 작동시키고 작동위치를 <span style="font-weight: bold; color: red;">기준 좌표</span>에 입력하세요 (소수점은 모두 버리세요)<br>
                 <span style="font-weight: bold;">Step 3  </span>
@@ -89,13 +89,13 @@
             <hr>
             <h3>주의사항</h3>
             <p>
-                탐지기는 가장 가까운 목표와의 거리를 알려주기때문에 위의 과정에서 오히려 멀어져서 다른 목표와의 거리를 받아버리면 계산결과가 아예 틀릴수 있음.<br>
+                탐지기는 가장 가까운 화석과의 거리를 알려주기때문에 위의 과정에서 오히려 멀어져서 다른 화석과의 거리를 받아버리면 계산결과가 아예 틀릴수 있음.<br>
                 이를 예방하는 방법이 몇가지가 있는데<br>
                 <span style="font-weight: bold;">1. 이동하고 탐지하는 과정에서 너무 멀어진다싶으면 반대방향으로 이동하자.</span><br>
                 &nbsp;&nbsp;예를 들어 기준점에서 x축으로 5칸을 갔는데 거리가 심하게 멀어졌다면 탐지결과를 버리고 기준점으로 돌아가 x축으로 -5칸을 가도록 하는것이다.<br>
                 <span style="font-weight: bold;">2. 애초에 거리가 15이하가 될 때까지 거리를 좁히고 5씩 움직이면서 탐지하자.</span><br>
                 &nbsp;&nbsp;거리가 멀든 가깝든 탐지위치간격은 최소4이상은 되어야 올바른 좌표를 계산할 수 있다. <br>
-                &nbsp;&nbsp;움직이면서 다른 목표를 탐지할만한 확률을 획기적으로 줄인다면 당신은 공룡을 탈 수 있을것이다.<br>
+                &nbsp;&nbsp;움직이면서 다른 화석을 탐지할만한 확률을 획기적으로 줄인다면 당신은 공룡을 탈 수 있을것이다.<br>
             </p>
         </div>
         <script src="script.js"></script>
